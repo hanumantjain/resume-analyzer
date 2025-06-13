@@ -2,7 +2,9 @@ const fs = require('fs');
 const pdfParse = require('pdf-parse');
 
 const uploadResume = async (req, res) => {
-  if (!req.file) return res.status(400).json({ error: 'No file uploaded' });
+  if (!req.file) return res.status(400).json({ error: 'No file uploaded' })
+  const jobDescription = req.body.jobDescription
+  if (!jobDescription) res.status(400).json({ error: 'Job Description is required' })
 
   const filePath = req.file.path;
   const fileName = req.file.filename;

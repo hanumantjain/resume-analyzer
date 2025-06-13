@@ -26,14 +26,11 @@ export const getProfile = async (token: string) => {
   });
 };
 
-export const uploadResume = async (file: File) => {
+export const uploadResume = async (file: File, jobDescription: string) => {
   const formData = new FormData()
   formData.append('resume', file)
+  formData.append('jobDescription', jobDescription)
 
-  const response = await axios.post(`${API_URL}/upload`, formData, {
-    headers: {
-      'Content-Type': 'multipart/form-data',
-    }
-  })
+  const response = await axios.post(`${API_URL}/upload`, formData)
   return response.data
 }
