@@ -1,22 +1,31 @@
 import { useState } from 'react';
 import { loginUser } from '../api/auth';
 import { useAuth } from '../context/AuthContext';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { FcGoogle } from "react-icons/fc";
 
 export default function Login() {
   const { setToken } = useAuth();
   const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [password, setPassword] = useState('')
+  const [error, setError] = useState('')
+  const [loading, setLoading] = useState(false)
+  const navigate = useNavigate()
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setLoading(true)
     try {
       const res = await loginUser({ email, password });
       setToken(res.data.token);
+      setTimeout(() => {
+        setLoading(false)
+        navigate('/')
+      }, 1000)
       
     } catch (err: any) {
-      alert(err.response?.data?.message || 'Login failed');
+      setLoading(false)
+      setError(err.response?.data?.message || 'Please try again');
     }
   };
 
@@ -34,7 +43,8 @@ export default function Login() {
                   name=""
                   value={email}
                   onChange={e => setEmail(e.target.value)} 
-                  className='border p-2 rounded'/>
+                  className='border p-2 rounded'
+                  required />
               </div>
               <div className='flex flex-col gap-2'>
                 <label>Password</label>
@@ -43,11 +53,14 @@ export default function Login() {
                   name=""
                   value={password}
                   onChange={e => setPassword(e.target.value)}
-                  className='border p-2 rounded' />
+                  className='border p-2 rounded'
+                  required />
               </div>
               <div className='flex justify-end'>
                 <p>Forgot password?</p>
               </div>
+              {error && <p className='text-red-500'>{error}</p>}
+              {loading && 'Signing in...'}
               <button type='submit' className='border rounded w-full py-2'>Sign in</button>
             </form>
           </div>

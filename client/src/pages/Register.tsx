@@ -1,23 +1,32 @@
 import { useState } from 'react';
 import { registerUser } from '../api/auth';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { FcGoogle } from "react-icons/fc";
 
 export default function Register() {
   const [form, setForm] = useState({ firstName: '', lastName: '', email: '', password: '' });
-  const[confirmPassword, setComfirmPassword] = useState('')
+  const [confirmPassword, setComfirmPassword] = useState('')
   const [error, setError] = useState('')
+  const [loading, setLoading] = useState(false)
+  const navigate = useNavigate()
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if(form.password !== confirmPassword){
       setError("Passwords do not match")
-    } else{
-      setError('')
+      return
     }
+    setError('')
+    setLoading(true)
     try {
       await registerUser(form);
+      setTimeout(() => {
+        setLoading(false)
+        navigate('/')
+      }, 1000)
     } catch (err: any) {
+      setLoading(false)
+      setError(err.response?.data?.message || 'Registration failed');
     }
   };
 
@@ -70,6 +79,7 @@ export default function Register() {
                   className='border p-2 rounded'
                   required />
               </div>
+              {loading && 'Registering...'}
               {error && <p className='text-red-500'>{error}</p>}
               <button type='submit' className='border rounded w-full py-2'>Register</button>
             </form>
