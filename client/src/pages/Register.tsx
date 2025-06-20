@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { registerUser } from '../api/auth';
 import { Link, useNavigate } from 'react-router-dom';
 import { FcGoogle } from "react-icons/fc";
+import Navbar from '../component/Navbar';
 
 export default function Register() {
   const [form, setForm] = useState({ firstName: '', lastName: '', email: '', password: '' });
@@ -23,7 +24,7 @@ export default function Register() {
       setTimeout(() => {
         setLoading(false)
         navigate('/')
-      }, 1000)
+      }, 500)
     } catch (err: any) {
       setLoading(false)
       setError(err.response?.data?.message || 'Registration failed');
@@ -31,14 +32,16 @@ export default function Register() {
   };
 
   return (
-    <div className='pt-20'>
-      <div className='flex flex-col justify-between items-center text-lg gap-10'>
+    <>
+    <Navbar />
+    <div className='pt-10'>
+      <div className='flex flex-col justify-between items-center gap-6'>
         <h1 className='text-2xl'>Register your account</h1>
-        <div className='w-1/3 border p-14 flex flex-col gap-8 rounded'>
+        <div className='w-1/3 border p-10 flex flex-col gap-6 rounded bg-gray-50'>
           <div className=''>
-            <form onSubmit={handleSubmit} className='flex flex-col gap-6'>
+            <form onSubmit={handleSubmit} className='flex flex-col gap-4'>
               <div className='flex gap-4'>
-                <div className='flex flex-col gap-2'>
+                <div className='flex flex-col gap-2 w-full'>
                   <label>First Name</label>
                   <input 
                     type="text" 
@@ -46,7 +49,7 @@ export default function Register() {
                     className='border p-2 rounded w-full'
                     required />
                 </div>
-                <div className='flex flex-col gap-2'>
+                <div className='flex flex-col gap-2 w-full'>
                   <label>Last Name</label>
                   <input 
                     type="text" 
@@ -81,12 +84,12 @@ export default function Register() {
               </div>
               {loading && 'Registering...'}
               {error && <p className='text-red-500'>{error}</p>}
-              <button type='submit' className='border rounded w-full py-2'>Register</button>
+              <button type='submit' className='border rounded w-full py-2 cursor-pointer bg-gray-800 text-white'>Register</button>
             </form>
           </div>
           <h1>Or continue with</h1>
           <div className='flex justify-center items-center'>
-            <button className='flex justify-center items-center gap-2 border rounded w-full py-2'>
+            <button className='flex justify-center items-center gap-2 border rounded w-full py-2 cursor-pointer'>
                <FcGoogle />
                Google</button>
           </div> 
@@ -98,5 +101,6 @@ export default function Register() {
         </h1>
       </div>
     </div>
+    </>
   );
 }

@@ -7,7 +7,7 @@ const router = express.Router();
 router.post('/register', register);
 router.post('/login', login);
 router.get('/me', protect, (req, res) => {
-  res.json({ message: 'Authenticated', userId: req.user.id });
+  res.json({ userId: req.user.id, firstName: req.user.firstName, email: req.user.email });
 });
 
 module.exports = router;
