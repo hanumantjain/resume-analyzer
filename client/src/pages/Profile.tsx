@@ -12,9 +12,8 @@ const Profile = () => {
     const fetchProfile = async () => {
       try {
         if (!token) return;
-        const response = await getProfile(token);  // response.data has id, name, email
+        const response = await getProfile(token); 
         setProfile(response.data);
-        console.log(response.data)
       } catch (err) {
         console.error('Failed to fetch profile:', err);
         setError('Failed to load profile');
@@ -33,7 +32,6 @@ const Profile = () => {
       {!profile && !error && <p>Loading...</p>}
       {profile && (
         <div className="bg-gray-100 p-4 rounded">
-          <p><strong>ID:</strong> {profile.userId}</p>
           <p><strong>Name:</strong> {profile.firstName}</p>
           <p><strong>Email:</strong> {profile.email}</p>
         </div>

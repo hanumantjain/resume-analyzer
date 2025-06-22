@@ -3,6 +3,8 @@ const connectDB = require('./config/db');
 const cors = require('cors')
 const authRoutes = require('./routes/auth');
 const uploadRoutes = require('./routes/upload');
+const passport = require('passport');
+require('./config/passport');
 
 require('dotenv').config();
 connectDB();
@@ -13,6 +15,7 @@ app.use(cors({
     credentials: true
 }))
 app.use(express.json());
+app.use(passport.initialize());
 
 app.use('/api/auth', authRoutes);
 app.use('/api/upload', uploadRoutes)

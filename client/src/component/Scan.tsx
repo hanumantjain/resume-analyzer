@@ -53,9 +53,8 @@ const Scan: React.FC<ScanProps> = ({ extractedText }) => {
 
     return (
         <div className='flex flex-col p-4 gap-4'>
-            <div className='w-full flex gap-10'>
-                {/* Resume Upload Box */}
-                <div className='border border-black rounded w-1/2 h-96 flex flex-col'>
+            <div className='w-full flex flex-col md:flex-row gap-10'>
+                <div className='border border-black rounded md:w-1/2 w-full h-96 flex flex-col'>
                     <div className='border-b p-4 text-xl'>
                         <h1>Resume</h1>
                     </div>
@@ -87,8 +86,8 @@ const Scan: React.FC<ScanProps> = ({ extractedText }) => {
                             )}
                         </div>
                         <div className='mt-auto p-4 w-full'>
-                            <label className='flex flex-col items-center justify-center border-2 border-dashed cursor-pointer transition-colors hover:bg-gray-50 py-6'>
-                                <span className='px-12 py-3'>Upload Resume (PDF)</span>
+                            <label className='flex flex-col items-center justify-center border-2 border-dashed cursor-pointer transition-colors hover:bg-gray-50'>
+                                <span className='px-10 py-3'>Upload Resume (PDF)</span>
                                 <input
                                     ref={fileInputRef}
                                     type="file"
@@ -102,7 +101,7 @@ const Scan: React.FC<ScanProps> = ({ extractedText }) => {
                 </div>
 
                 {/* Job Description Textarea */}
-                <div className='border border-black rounded w-1/2 h-96 flex flex-col'>
+                <div className='border border-black rounded md:w-1/2 w-full h-96 flex flex-col'>
                     <div className='border-b p-4 text-xl'>
                         <h1>Job Description</h1>
                     </div>
@@ -117,7 +116,6 @@ const Scan: React.FC<ScanProps> = ({ extractedText }) => {
                 </div>
             </div>
 
-            {/* Submit Button */}
             <div className='flex justify-end'>
                 <button
                     className='border px-20 rounded py-3 cursor-pointer disabled:opacity-50'

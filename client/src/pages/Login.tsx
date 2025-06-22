@@ -12,6 +12,7 @@ export default function Login() {
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
   const navigate = useNavigate()
+  const API_URL = import.meta.env.VITE_API_URL;
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -28,6 +29,10 @@ export default function Login() {
       setError(err.response?.data?.message || 'Please try again');
     }
   };
+
+  const handleGoogleLogin = () => {
+    window.location.href = `${API_URL}/auth/google`
+  }
 
   return (
     <>
@@ -68,7 +73,8 @@ export default function Login() {
           </div>
           <h1>Or continue with</h1>
           <div className='flex justify-center items-center'>
-            <button className='flex justify-center items-center gap-2 border rounded w-full py-2 cursor-pointer'>
+            <button className='flex justify-center items-center gap-2 border rounded w-full py-2 cursor-pointer'
+              onClick={handleGoogleLogin}>
                <FcGoogle />
                Google</button>
           </div> 

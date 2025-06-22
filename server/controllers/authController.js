@@ -27,4 +27,19 @@ const login = async (req, res) => {
   res.json({ token });
 };
 
-module.exports = { register, login }
+const googleCallback = async (req, res) => {
+  try {
+    const user = req.user;
+
+    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
+      expiresIn: '1d',
+    });
+
+    res.redirect(`${process.env.CLIENT_URL}/oauth-success?token=${token}`);
+  } catch (error) {
+    console.error('Google login error:', error);
+    res.redirect('/login?error=oauth_failed');
+  }
+};
+
+module.exports = { register, login, googleCallback }

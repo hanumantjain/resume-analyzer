@@ -17,11 +17,23 @@ const uploadResume = async (req, res) => {
     const data = await pdfParse(buffer);
     const resumeText = data.text;
 
-    // Prompt to send to LLaMA 3
+    // Prompt to send to mistral 
     const prompt = `
-You are a technical recruiter.
+You are a senior technical recruiter evaluating the fit between a candidate's resume and a job description.
 
-Compare the following resume and job description. Score how well the resume matches the job description (from 0 to 100) and explain your reasoning.
+Evaluate based on the following five categories:
+1. Technical Skills
+2. Work Experience Relevance
+3. Technology & Tool Familiarity
+4. Soft Skills & Communication
+5. Keyword and Terminology Overlap
+
+Instructions:
+- Assign a score out of 100 for overall fit.
+- Include sub-scores (1–5) for each category.
+- Highlight at least 5 **matching** and 5 **missing** key skills or keywords.
+- Explain strengths and weaknesses in a detailed paragraph (~150 words).
+- Conclude with actionable suggestions for improving the resume alignment.
 
 Resume:
 ${resumeText}
@@ -30,13 +42,32 @@ Job Description:
 ${jobDescription}
 
 Respond in this format:
-Score: XX
-Reason: ...
-    `;
+Overall Score: XX
 
-    // Send to Ollama running llama3
+Sub-scores:
+1. Technical Skills: X/20
+2. Work Experience Relevance: X/20
+3. Technology & Tool Familiarity: X/20
+4. Soft Skills & Communication: X/20
+5. Keyword and Terminology Overlap: X/20
+
+Matching Keywords: [...]
+Missing Keywords: [...]
+
+Reasoning:
+<detailed paragraph>
+
+Suggestions:
+- <tip 1>
+- <tip 2>
+- ...
+`;
+
+
+
+    // Send to Ollama running mistral
     const llmResponse = await axios.post(OLLAMA_API_URL, {
-      model: 'llama3',
+      model: 'gemma:2b',
       prompt: prompt,
       stream: false
     });
